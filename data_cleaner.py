@@ -8,18 +8,38 @@ import math
 pd.set_option("display.max_rows", 100)
 df = pd.read_csv("bitcoin_raw.csv")
 # df = df.Timestamp.astype(str)
-df.drop(df.index[:2625376], inplace=True)
+df.drop(df.index[:968], inplace=True)
 df.drop(df.index[-1], inplace=True)
 
-df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit="s")
+df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit="s").dt.date
 
-df["time"] = (
-    pd.to_datetime(df["Timestamp"]).dt.hour * 3600 + df["Timestamp"].dt.minute * 60
-)
+#df["time"] = (
+#    pd.to_datetime(df["Timestamp"]).dt.hour * 3600 + pd.to_datetime(df["Timestamp"]).dt.minute * 60)
+
+print(df)
+
+# BEGIN TODAY
+df.drop('Weighted_Price', axis=1, inplace=True)
+
+df = df.groupby(['Timestamp'], as_index=False).agg({'Open':'first',
+    'High':'max', 'Low':'min', 'Close':'last', 'Volume_(BTC)':'sum',
+    'Volume_(Currency)':'sum'})
+
+print(df)
 
 
-print(df[2625370: 2625380])
 
+
+
+
+
+# END TODAY
+
+# SCRATCH
+
+#print(df[2625370: 2625380])
+
+"""
 Days = [set() for x in range(1460)]
 offset = 2625376
 print('before')
@@ -38,6 +58,7 @@ for day in range(1460):
             Days[day].add(curr_second)
         else:
             seconds_with_nan[day].add(curr_second)
+"""
 
 # max = 0
 # max_day = 0
@@ -49,11 +70,11 @@ for day in range(1460):
 # print("max_day", max_day)
 
 
-I = Days[0]
-for i in range(1, 1460):
-    I = I.intersection(Days[i])
-print('I has length: '+str(len(I)))
-print(I)
+# I = Days[0]
+# for i in range(1, 1460):
+#     I = I.intersection(Days[i])
+# print('I has length: '+str(len(I)))
+# print(I)
 
 # print(df.head)
 # print(df.loc[df["Timestamp"] == "2017-01-01 00:00:00"])
@@ -74,6 +95,7 @@ print(I)
 # # print(df_group_by_day.head())
 # df_group_by_day.plot(y=["Open", "High", "Low", "Close", "Volume_(BTC)"])
 #df_group_by_day.plot(y=["Open"])
+#df.plot(y=["time"])
 #plt.show()
 # print(df.head(5))
 # print(pd.to_datetime(df["Timestamp"]).date.count())
