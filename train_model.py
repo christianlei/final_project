@@ -47,18 +47,15 @@ neurons = [[90, 7],
            [50, 60, 70, 50, 40],
            [50, 60, 70, 50, 40]]
 
-test_results = [[], [], []]
+test_results = []
 
 df = pd.read_csv('bitcoin.csv')
-labels = df['labels']
+labels = df[['labels']]
 df.drop(['Unnamed: 0', 'Timestamp', 'labels'], axis=1, inplace=True)
 #labels.drop(['Unnamed: 0', 'Timestamp'], axis = 1, inplace=True)
 
-print(labels)
-print(df)
-
-
 sys.stdout = open("BitcoinResults.txt","w+")
+fd = open("Test.txt", "w+")
 # f = open(market[ind]+"Results.txt","w+")
 print("Bitcoin Trials:*******************************************\n")
 
@@ -138,8 +135,9 @@ for j in range(1):
 
 	train_loss, train_acc = regressor.evaluate(X_train, y_train)
 	test_loss, test_acc = regressor.evaluate(X_test, y_test)
+	print('Success', file=fd)
 
-	test_results[ind].append(test_acc)
+	test_results.append(test_acc)
 
 	sys.stdout = open("BitcoinResults.txt","a")
 	print('Model', j+1, ':', 'Training set accuracy:', train_acc)
@@ -156,6 +154,7 @@ for j in range(1):
 
 	regressor = None
 
+print('Success', file=fd)
 """
 avg_test_results = []
 for i in range(15):
