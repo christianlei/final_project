@@ -55,7 +55,7 @@ df.drop(['Unnamed: 0', 'Timestamp', 'labels'], axis=1, inplace=True)
 #labels.drop(['Unnamed: 0', 'Timestamp'], axis = 1, inplace=True)
 
 sys.stdout = open("BitcoinResults.txt","w+")
-fd = open("Test.txt", "w+")
+#fd = open("Test.txt", "w+")
 # f = open(market[ind]+"Results.txt","w+")
 print("Bitcoin Trials:*******************************************\n")
 
@@ -105,7 +105,7 @@ X_test, y_test = np.array(X_test), np.array(y_test)
 
 sgd = optimizers.SGD(lr=0.01, clipvalue=1)
 
-for j in range(1):
+for j in range(15):
 	layers = num_layers[j]
 	neur   = neurons[j]
 	dr     = drop[j]
@@ -130,12 +130,11 @@ for j in range(1):
 
 
 	sys.stdout = sys.__stdout__
-	history = regressor.fit(X_train, y_train, epochs = 120,
+	history = regressor.fit(X_train, y_train, epochs = 100,
 		batch_size = 32, validation_data = (X_val, y_val), shuffle = False)
 
 	train_loss, train_acc = regressor.evaluate(X_train, y_train)
 	test_loss, test_acc = regressor.evaluate(X_test, y_test)
-	print('Success', file=fd)
 
 	test_results.append(test_acc)
 
@@ -144,8 +143,8 @@ for j in range(1):
 	print('Model', j+1, ':', 'Test set accuracy:', test_acc)
 	print('\n')
 
-	plt.plot(history.history['acc'], label='train')
-	plt.plot(history.history['val_acc'], label='val')
+	plt.plot(history.history['accuracy'], label='train')
+	plt.plot(history.history['val_accuracy'], label='val')
 	plt.legend()
 	plt.title('Binary Crossentropy: Train vs. Val')
 	plt.xlabel('epoch')
@@ -154,7 +153,6 @@ for j in range(1):
 
 	regressor = None
 
-print('Success', file=fd)
 """
 avg_test_results = []
 for i in range(15):
