@@ -10,15 +10,13 @@ df.drop(df.index[-1], inplace=True)
 
 df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit="s").dt.date
 
-df = df.groupby(['Timestamp'], as_index=False).agg({'Open':'first',
-    'High':'max', 'Low':'min', 'Close':'last', 'Volume_(BTC)':'sum',
-    'Volume_(Currency)':'sum', 'Weighted_Price':'mean'})
+df = df.groupby(['Timestamp'], as_index=False).agg({'Weighted_Price':'mean'})
 
 #add labels
 labels = []
-open_list = list(df['Open'])
+weighted_price_list = list(df['Weighted_Price'])
 for i in range(len(df)-30):
-    if open_list[i+30] >= open_list[i]:
+    if weighted_price_list[i+30] >= weighted_price_list[i]:
         labels.append(1)
     else:
         labels.append(0)
