@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from concurr
 
 
 def Cost(X_train, y_train, w, b):
