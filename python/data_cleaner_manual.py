@@ -2,8 +2,6 @@ from models.Bitcoin import Bitcoin
 from models.Day import Day
 import sys
 import os
-import datetime
-
 
 filepath = "bitcoin_raw.csv"
 output_filemath = "bitcoin_clean_python.csv"
@@ -34,26 +32,40 @@ def main():
                 continue
             bitcoin = Bitcoin(row_list[0], row_list[-1])
             if bitcoin.timestamp != day.day:
-                returned_day = add_and_retrieve_day(day)
                 day.calcuate_average_of_bitcoin()
+                returned_day = add_and_retrieve_day(day)
                 if(isinstance(returned_day, Day)):
-                    if returned_day.average_price > day.average_price:
-                        day.label = 1.0
+                    if returned_day.average_price <= day.average_price:
+                        returned_day.label = 1.0
                     else:
-                        day.label = 0.0
-                print(day)
+                        returned_day.label = 0.0
+                if returned_day is not None:
+                    print(returned_day)
                 day = Day(bitcoin)
-
             day.add_bitcoin(bitcoin)
+        day.calcuate_average_of_bitcoin()
+        thirty_day_buffer.append(day)
+    returned_day = retrieve_day()
+    while(isinstance(returned_day, Day)):
+        print(returned_day)
+        returned_day = retrieve_day()
+
 def add_and_retrieve_day(day):
     THIRTY = 30
-    thirty_day_buffer.append(day)
+    if day != None:
+        thirty_day_buffer.append(day)
     if len(thirty_day_buffer) == THIRTY:
         return thirty_day_buffer.pop(0)
+    return None
+
+def retrieve_day():
+    if not thirty_day_buffer:
+        return None
+    return thirty_day_buffer.pop(0)
 
 def save_columns_from_header(first_line):
     first_line_list = first_line.split(",")
-    new_line_list = first_line_list[0:1]
+    new_line_list = [first_line_list[0]]
     new_line_list.append(first_line_list[-1])
     new_line_list.append("label")
     print(', '.join(new_line_list))
