@@ -6,4 +6,4 @@ python/venv
 cpp/.idea
 cpp/cmake-build-debug
 cpp/CMakeLists.txt
-
+*.class
