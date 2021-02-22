@@ -2,6 +2,7 @@
 // Created by Christian C Lei on 2/19/21.
 //
 #include <iostream>
+#include <iomanip>
 #include "Day.h"
 
 Day::Day() {
@@ -38,9 +39,10 @@ void Day::calculate_average_weighted_price()
 };
 
 ostream& operator<<(std::ostream &strm, const Day &day) {
-    strm.precision(5);
+    strm << fixed;
+    strm << setprecision(15);
     if (day.label != -1.0)
-        return strm << day.timestamp << "," << day.average_price << "," << day.label;
+        return strm << day.timestamp << "," << day.average_price << "," << setprecision(1) << day.label;
     else
         return strm << day.timestamp << "," << day.average_price << ",";
 }

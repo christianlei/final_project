@@ -10,15 +10,15 @@
 
 using namespace std;
 
-Day add_and_retrieve_past_day(queue<Day> *past_days, const Day& day);
+Day* add_and_retrieve_past_day(queue<Day*> *past_days, Day* day);
 
-Day retrieve_past_day(queue<Day> *past_days);
+Day* retrieve_past_day(queue<Day*> *past_days);
 
 int main() {
 
     ifstream rawcsv;
     ofstream *cleancsv = new ofstream();
-    queue<Day> *past_days = new queue<Day>;
+    queue<Day*> *past_days = new queue<Day*>;
     stringstream ss;
     bool nan_in_line = false;
     const int FIRST_DATE_TO_PARSE = 1325376000;
@@ -65,8 +65,8 @@ int main() {
         }
 
         Bitcoin bitcoin = Bitcoin(one_row[0], stof(one_row[7]));
-        Day day = Day(bitcoin);
-        day.add_bitcoin(bitcoin);
+        Day* day = new Day(bitcoin);
+        day->add_bitcoin(bitcoin);
 
         //Rest of days
         while (getline(rawcsv, line)) {
@@ -86,32 +86,33 @@ int main() {
 
             bitcoin = Bitcoin(one_row[0], stof(one_row[7]));
 
-            if (bitcoin.getTimestamp() != day.getTimestamp()) {
-                day.calculate_average_weighted_price();
-                Day returned_day = add_and_retrieve_past_day(past_days, day);
-                if (!returned_day.isEmpty()) {
-                    if (returned_day.getAveragePrice() <= day.getAveragePrice()) {
-                        returned_day.setLabel(1.0);
+            if (bitcoin.getTimestamp() != day->getTimestamp()) {
+                day->calculate_average_weighted_price();
+                Day* returned_day = add_and_retrieve_past_day(past_days, day);
+                if (returned_day != nullptr) {
+                    if (returned_day->getAveragePrice() <= day->getAveragePrice()) {
+                        returned_day->setLabel(1.0);
                     } else {
-                        returned_day.setLabel(0.0);
+                        returned_day->setLabel(0.0);
                     }
                 }
-                if (!returned_day.isEmpty()) {
-                    *cleancsv << returned_day << endl;
+                if (returned_day != nullptr) {
+                    *cleancsv << *returned_day << endl;
                 }
-                day = Day(bitcoin);
+                delete returned_day;
+                day = new Day(bitcoin);
             }
-            day.add_bitcoin(bitcoin);
+            day->add_bitcoin(bitcoin);
         }
-        day.calculate_average_weighted_price();
+        day->calculate_average_weighted_price();
         past_days->push(day);
 
-        Day returned_day = retrieve_past_day(past_days);
-        while (!returned_day.isEmpty()) {
-            *cleancsv << returned_day << endl;
+        Day* returned_day = retrieve_past_day(past_days);
+        while (returned_day != nullptr) {
+            *cleancsv << *returned_day << endl;
+            delete returned_day;
             returned_day = retrieve_past_day(past_days);
         }
-
         rawcsv.close();
         delete cleancsv;
         delete past_days;
@@ -119,22 +120,22 @@ int main() {
     return 0;
 }
 
-Day add_and_retrieve_past_day(queue<Day> *past_days, const Day &day) {
+Day* add_and_retrieve_past_day(queue<Day*> *past_days, Day *day) {
     const int THIRTY_ONE = 31;
     past_days->push(day);
     if (past_days->size() == THIRTY_ONE) {
-        Day past_day = past_days->front();
+        Day *past_day = past_days->front();
         past_days->pop();
         return past_day;
     }
-    return Day();
+    return nullptr;
 }
 
-Day retrieve_past_day(queue<Day> *past_days) {
+Day* retrieve_past_day(queue<Day*> *past_days) {
     if (!(*past_days).empty()) {
-        Day past_day = past_days->front();
+        Day* past_day = past_days->front();
         past_days->pop();
         return past_day;
     }
-    return Day();
+    return nullptr;
 }
