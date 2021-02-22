@@ -13,7 +13,8 @@ class DataCleanerManual {
   public static void main(String[] args) throws IOException {
     String line = "";
     String splitBy = ",";
-    List<String> oneRow = new ArrayList<>();
+    final int FIRST_DATE_TO_PARSE = 1325376000;
+
     try {
       FileWriter writer = new FileWriter("bitcoin_clean_java.csv");
       BufferedReader br = new BufferedReader(new FileReader("bitcoin_raw.csv"));
@@ -24,14 +25,20 @@ class DataCleanerManual {
       //First Day
       line = br.readLine();
       String[] firstLine = line.split(splitBy);
-      Day day = new Day(new Bitcoin(firstLine[0], firstLine[7]));
+      while (Arrays.asList(firstLine).contains("NaN") || Float.parseFloat(firstLine[0]) < FIRST_DATE_TO_PARSE) {
+        line = br.readLine();
+        firstLine = line.split(splitBy);
+      }
+      Bitcoin bitcoin = new Bitcoin(firstLine[0], firstLine[7]);
+      Day day = new Day(bitcoin);
+      day.addBitcoin(bitcoin);
 
       while ((line = br.readLine()) != null) {
         String[] row = line.split(splitBy);
         if (Arrays.asList(row).contains("NaN"))
           continue;
 
-        Bitcoin bitcoin = new Bitcoin(row[0], row[7]);
+        bitcoin = new Bitcoin(row[0], row[7]);
         if (!bitcoin.getTimestamp().equals(day.getTimestamp())) {
           day.calculateAveragePrice();
           Day returned_day = addAndRetrievePastDay(day);
@@ -41,8 +48,7 @@ class DataCleanerManual {
             else
               returned_day.setLabel(0);
           }
-          if (returned_day != null && !returned_day.getTimestamp().equals("2011-12-30")
-              && !returned_day.getTimestamp().equals("2011-12-31"))
+          if (returned_day != null)
             writer.append(returned_day.toString());
           day = new Day(bitcoin);
         }
@@ -68,9 +74,9 @@ class DataCleanerManual {
 
 
   static Day addAndRetrievePastDay(Day day) {
-    final int THIRTY = 30;
+    final int THIRTY_ONE = 31;
     pastDays.addLast(day);
-    if(pastDays.size() == THIRTY)
+    if(pastDays.size() == THIRTY_ONE)
       return pastDays.remove();
     return null;
   }

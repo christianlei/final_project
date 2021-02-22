@@ -7,6 +7,7 @@ filepath = "bitcoin_raw.csv"
 output_filemath = "bitcoin_clean_python.csv"
 str_to_file = ""
 thirty_day_buffer = []
+FIRST_DATE_TO_PARSE = 1325376000
 
 def main():
     if not os.path.isfile(filepath):
@@ -22,8 +23,12 @@ def main():
         first_day = bitcoin_file.readline().rstrip()
         line_list = []
         line_list = first_day.split(",")
+        while ("NaN" in line_list or float(line_list[0]) < FIRST_DATE_TO_PARSE):
+            first_day = bitcoin_file.readline().rstrip()
+            line_list = first_day.split(",")
         first_day = Bitcoin(line_list[0], line_list[-1])
         day = Day(first_day)
+        day.add_bitcoin(first_day)
         for row in bitcoin_file:
             row_list = []
             row = row.rstrip()
@@ -39,7 +44,7 @@ def main():
                         returned_day.label = 1.0
                     else:
                         returned_day.label = 0.0
-                if returned_day is not None and returned_day.day != "2011-12-30" and returned_day.day != "2011-12-31":
+                if returned_day is not None:
                     print(returned_day)
                 day = Day(bitcoin)
             day.add_bitcoin(bitcoin)
@@ -51,10 +56,10 @@ def main():
         returned_day = retrieve_day()
 
 def add_and_retrieve_day(day):
-    THIRTY = 30
+    THIRTY_ONE = 31
     if day != None:
         thirty_day_buffer.append(day)
-    if len(thirty_day_buffer) == THIRTY:
+    if len(thirty_day_buffer) == THIRTY_ONE:
         return thirty_day_buffer.pop(0)
     return None
 

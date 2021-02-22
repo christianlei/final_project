@@ -8,18 +8,20 @@ public class Day {
   String timestamp;
   double averagePrice;
   List<Bitcoin> bitcoins;
-  int label;
+  float label;
+  int number_of_bitcoin;
 
 
   public Day(Bitcoin bitcoin) {
     this.timestamp = bitcoin.getTimestamp();
     bitcoins = new ArrayList<>();
-    this.bitcoins.add(bitcoin);
     this.label = -1;
+    this.number_of_bitcoin = 0;
   }
 
   public void addBitcoin(Bitcoin bitcoin) {
     this.bitcoins.add(bitcoin);
+    this.number_of_bitcoin = this.bitcoins.size();
   }
 
   public void calculateAveragePrice() {
@@ -34,7 +36,7 @@ public class Day {
     return timestamp;
   }
 
-  public void setLabel(int label) {
+  public void setLabel(float label) {
     this.label = label;
   }
 

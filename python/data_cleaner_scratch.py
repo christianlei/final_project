@@ -1,17 +1,30 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import math
 
 
 pd.set_option("display.max_rows", 100)
 df = pd.read_csv("bitcoin_raw.csv")
 # df = df.Timestamp.astype(str)
-df.drop(df.index[:968], inplace=True)
-df.drop(df.index[-1], inplace=True)
+df['Open'].replace('', np.nan, inplace=True)
+df.dropna(how='any', inplace=True)
+# df.drop(df.index[:968], inplace=True)
+df.drop(df.index[:4], inplace=True)
+
+# df.tz_localize('UTC')
 
 df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit="s").dt.date
+# df = df.groupby(['Timestamp'], as_index=False).agg({'Open':'first',
+#     'High':'max', 'Low':'min', 'Close':'last', 'Volume_(BTC)':'sum',
+#     'Volume_(Currency)':'sum', 'Weighted_Price':'mean'})
+
+df_group_by_day = df.groupby(df["Timestamp"]).count()
+df.to_csv("bitcoin_timestamps_as_dates.csv")
+df_group_by_day.to_csv("bitcoin_groupby.csv")
+# print(df_group_by_day[df_group_by_day["Timestamp"] == "2012-09-16"])
+
 
 #df["time"] = (
 #    pd.to_datetime(df["Timestamp"]).dt.hour * 3600 + pd.to_datetime(df["Timestamp"]).dt.minute * 60)
@@ -21,24 +34,21 @@ df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit="s").dt.date
 # BEGIN TODAY
 #df.drop('Weighted_Price', axis=1, inplace=True)
 
-df = df.groupby(['Timestamp'], as_index=False).agg({'Open':'first',
-    'High':'max', 'Low':'min', 'Close':'last', 'Volume_(BTC)':'sum',
-    'Volume_(Currency)':'sum', 'Weighted_Price':'mean'})
 
 #add labels
-labels = []
-open_list = list(df['Open'])
-for i in range(len(df)-30):
-    if open_list[i+30] >= open_list[i]:
-        labels.append(1)
-    else:
-        labels.append(0)
-for i in range(30):
-    labels.append(math.nan)
-df['labels'] = labels
+# labels = []
+# open_list = list(df['Open'])
+# for i in range(len(df)-30):
+#     if open_list[i+30] >= open_list[i]:
+#         labels.append(1)
+#     else:
+#         labels.append(0)
+# for i in range(30):
+#     labels.append(math.nan)
+# df['labels'] = labels
 
 
-print(df[100:200])
+# print(df[100:200])
 
 
 

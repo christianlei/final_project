@@ -20,14 +20,15 @@ class Day {
         const string &getTimestamp() const;
         bool isEmpty() const;
         float getAveragePrice() const;
-        void setLabel(int label);
+        void setLabel(float label);
 
 private:
         string timestamp;
         float average_price;
         bool empty;
         vector<Bitcoin> bitcoins;
-        int label;
+        float label;
+        int number_of_bitcoin;
         friend ostream& operator<<(ostream&, const Day&);
 };
 #endif //CPP_DAY_H

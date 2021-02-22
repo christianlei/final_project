@@ -2,6 +2,7 @@ package models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Bitcoin {
 
@@ -11,6 +12,7 @@ public class Bitcoin {
   public Bitcoin(String timestamp, String weight_price) {
     Date date = new Date(Long.parseLong(timestamp) * 1000);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     this.timestamp = sdf.format(date);
     this.weight_price = Double.parseDouble(weight_price);
   }

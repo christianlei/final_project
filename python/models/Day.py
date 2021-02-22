@@ -3,12 +3,14 @@ from . import Bitcoin
 class Day:
     def __init__(self, bitcoin):
         self.day = bitcoin.timestamp
-        self.bitcoins = [bitcoin]
+        self.bitcoins = []
         self.average_price = float()
+        self.number_of_bitcoin = 0
         self.label = None
-    
+
     def add_bitcoin(self, bitcoin):
         self.bitcoins.append(bitcoin)
+        self.number_of_bitcoin = len(self.bitcoins)
 
     def calcuate_average_of_bitcoin(self):
         self.average_price = sum(bitcoin.weighted_price for bitcoin in self.bitcoins)/len(self.bitcoins)
