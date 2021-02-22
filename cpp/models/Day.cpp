@@ -10,6 +10,7 @@ Day::Day() {
 
 Day::Day(Bitcoin bitcoin) {
     empty = false;
+    label = -1;
     timestamp = bitcoin.getTimestamp();
     bitcoins.push_back(bitcoin);
 }
@@ -36,7 +37,10 @@ void Day::calculate_average_weighted_price()
 };
 
 ostream& operator<<(std::ostream &strm, const Day &day) {
-    return strm << day.timestamp << "," << day.average_price << "," << day.label;
+    if (day.label != -1)
+        return strm << day.timestamp << "," << day.average_price << "," << day.label;
+    else
+        return strm << day.timestamp << "," << day.average_price << ",";
 }
 
 bool Day::isEmpty() const {

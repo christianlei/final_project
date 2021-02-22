@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 #include <queue>
-#include <optional>
 #include "models/Bitcoin.h"
 #include "models/Day.h"
 
@@ -36,7 +35,6 @@ int main() {
             one_row.push_back(token);
         }
 
-        stringstream output;
         *cleancsv << one_row[0] << "," << one_row[7] << ",label" << endl;
 
         //first day
@@ -59,7 +57,7 @@ int main() {
                 one_row.push_back(token);
             }
             bool nan_in_line = false;
-            if (std::find(one_row.begin(), one_row.end(), "NaN") != one_row.end())
+            if (find(one_row.begin(), one_row.end(), "NaN") != one_row.end())
             {
                 nan_in_line = true;
             }
@@ -82,7 +80,7 @@ int main() {
                         returned_day.setLabel(0.0);
                     }
                 }
-                if (!returned_day.isEmpty())
+                if (!returned_day.isEmpty() && returned_day.getTimestamp() != "2011-12-30" && returned_day.getTimestamp() != "2011-12-31")
                 {
                     *cleancsv << returned_day << endl;
                 }
@@ -94,7 +92,7 @@ int main() {
         past_days->push(day);
 
         Day returned_day = retrieve_past_day(past_days);
-        while(!returned_day.isEmpty())
+        while(!returned_day.isEmpty() )
         {
             *cleancsv << returned_day << endl;
             returned_day = retrieve_past_day(past_days);

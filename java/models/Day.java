@@ -15,6 +15,7 @@ public class Day {
     this.timestamp = bitcoin.getTimestamp();
     bitcoins = new ArrayList<>();
     this.bitcoins.add(bitcoin);
+    this.label = -1;
   }
 
   public void addBitcoin(Bitcoin bitcoin) {
@@ -43,6 +44,9 @@ public class Day {
 
   @Override
   public String toString() {
-    return timestamp + "," + averagePrice + "," + label + '\n';
+    if (this.label != -1)
+      return timestamp + "," + averagePrice + "," + label + '\n';
+    else
+      return timestamp + "," + averagePrice + "," + '\n';
   }
 }

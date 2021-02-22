@@ -39,7 +39,7 @@ def main():
                         returned_day.label = 1.0
                     else:
                         returned_day.label = 0.0
-                if returned_day is not None:
+                if returned_day is not None and returned_day.day != "2011-12-30" and returned_day.day != "2011-12-31":
                     print(returned_day)
                 day = Day(bitcoin)
             day.add_bitcoin(bitcoin)
@@ -67,7 +67,7 @@ def save_columns_from_header(first_line):
     first_line_list = first_line.split(",")
     new_line_list = [first_line_list[0]]
     new_line_list.append(first_line_list[-1])
-    new_line_list.append("label")
+    new_line_list.append("labels")
     print(', '.join(new_line_list))
 
 if __name__ == "__main__":

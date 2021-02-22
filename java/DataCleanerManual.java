@@ -26,7 +26,6 @@ class DataCleanerManual {
       String[] firstLine = line.split(splitBy);
       Day day = new Day(new Bitcoin(firstLine[0], firstLine[7]));
 
-
       while ((line = br.readLine()) != null) {
         String[] row = line.split(splitBy);
         if (Arrays.asList(row).contains("NaN"))
@@ -42,7 +41,8 @@ class DataCleanerManual {
             else
               returned_day.setLabel(0);
           }
-          if (returned_day != null)
+          if (returned_day != null && !returned_day.getTimestamp().equals("2011-12-30")
+              && !returned_day.getTimestamp().equals("2011-12-31"))
             writer.append(returned_day.toString());
           day = new Day(bitcoin);
         }
@@ -53,13 +53,14 @@ class DataCleanerManual {
       pastDays.addLast(day);
 
       Day returned_day = retrievePastDay();
-      while(returned_day != null) {
+      while(returned_day != null ) {
         writer.append(returned_day.toString());
         returned_day = retrievePastDay();
       }
 
       writer.flush();
       writer.close();
+      br.close();
     } catch (Exception e) {
         System.out.println(e.toString());
     }
