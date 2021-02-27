@@ -1,8 +1,6 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import models.Bitcoin;
 import models.Day;
 
@@ -10,7 +8,7 @@ class DataCleanerManual {
 
   static LinkedList<Day> pastDays = new LinkedList<>();
 
-  public static void main(String[] args) throws IOException {
+  public void data_cleaner_manual() throws IOException {
     String line = "";
     String splitBy = ",";
     final int FIRST_DATE_TO_PARSE = 1325376000;
@@ -73,7 +71,7 @@ class DataCleanerManual {
   }
 
 
-  static Day addAndRetrievePastDay(Day day) {
+  Day addAndRetrievePastDay(Day day) {
     final int THIRTY_ONE = 31;
     pastDays.addLast(day);
     if(pastDays.size() == THIRTY_ONE)
@@ -81,7 +79,7 @@ class DataCleanerManual {
     return null;
   }
 
-  static Day retrievePastDay() {
+  Day retrievePastDay() {
     if(!pastDays.isEmpty())
       return pastDays.remove();
     return null;
