@@ -2,6 +2,7 @@ from models.Bitcoin import Bitcoin
 from models.Day import Day
 import sys
 import os
+import psutil
 
 filepath = "bitcoin_raw.csv"
 output_filemath = "bitcoin_clean_python.csv"
@@ -9,11 +10,14 @@ str_to_file = ""
 thirty_day_buffer = []
 FIRST_DATE_TO_PARSE = 1325376000
 
-def main():
+def data_cleaner_manual():
     if not os.path.isfile(filepath):
         print("File path {} does not exist. Exiting...".format(filepath))
         sys.exit()
-
+    original_stdout = sys.stdout
+    p = psutil.Process(os.getpid())
+    print(os.getpid())
+    print(p.cpu_percent())
     sys.stdout = open(output_filemath, "w")
 
     with open(filepath) as bitcoin_file:
@@ -37,7 +41,7 @@ def main():
                 continue
             bitcoin = Bitcoin(row_list[0], row_list[-1])
             if bitcoin.timestamp != day.day:
-                day.calcuate_average_of_bitcoin()
+                day.calculate_average_of_bitcoin()
                 returned_day = add_and_retrieve_day(day)
                 if(isinstance(returned_day, Day)):
                     if returned_day.average_price <= day.average_price:
@@ -48,18 +52,19 @@ def main():
                     print(returned_day)
                 day = Day(bitcoin)
             day.add_bitcoin(bitcoin)
-        day.calcuate_average_of_bitcoin()
+        day.calculate_average_of_bitcoin()
         thirty_day_buffer.append(day)
     returned_day = retrieve_day()
     while(isinstance(returned_day, Day)):
         print(returned_day)
         returned_day = retrieve_day()
+    sys.stdout = original_stdout
 
 def add_and_retrieve_day(day):
-    THIRTY_ONE = 31
+    thirty_one = 31
     if day != None:
         thirty_day_buffer.append(day)
-    if len(thirty_day_buffer) == THIRTY_ONE:
+    if len(thirty_day_buffer) == thirty_one:
         return thirty_day_buffer.pop(0)
     return None
 
@@ -74,6 +79,3 @@ def save_columns_from_header(first_line):
     new_line_list.append(first_line_list[-1])
     new_line_list.append("labels")
     print(', '.join(new_line_list))
-
-if __name__ == "__main__":
-    main()

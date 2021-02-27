@@ -12,7 +12,7 @@ class Day:
         self.bitcoins.append(bitcoin)
         self.number_of_bitcoin = len(self.bitcoins)
 
-    def calcuate_average_of_bitcoin(self):
+    def calculate_average_of_bitcoin(self):
         self.average_price = sum(bitcoin.weighted_price for bitcoin in self.bitcoins)/len(self.bitcoins)
 
     def __str__(self):
