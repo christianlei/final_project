@@ -80,7 +80,7 @@ class DataCleanerManual {
   }
 
   Day retrievePastDay() {
-    if(!pastDays.isEmpty())
+    if(!(pastDays.size() == 1))
       return pastDays.remove();
     return null;
   }

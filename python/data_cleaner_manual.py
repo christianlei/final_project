@@ -69,7 +69,7 @@ def add_and_retrieve_day(day):
     return None
 
 def retrieve_day():
-    if not thirty_day_buffer:
+    if len(thirty_day_buffer) == 1:
         return None
     return thirty_day_buffer.pop(0)
 
@@ -78,4 +78,4 @@ def save_columns_from_header(first_line):
     new_line_list = [first_line_list[0]]
     new_line_list.append(first_line_list[-1])
     new_line_list.append("labels")
-    print(', '.join(new_line_list))
+    print(','.join(new_line_list))

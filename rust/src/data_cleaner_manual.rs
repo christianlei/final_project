@@ -81,6 +81,7 @@ pub(crate) fn clean_data_file() -> io::Result<()> {
     let mut thirty_day_buffer: VecDeque<Day> = VecDeque::new();
 
     let mut output_file = OpenOptions::new()
+        .create(true)
         .write(true)
         .open(output_file_name)
         .unwrap();
@@ -206,7 +207,7 @@ fn retrieve_day(thirty_day_buffer: &mut VecDeque<Day>) -> Day {
         label: 0.0,
         number_of_bitcoin: 0
     };
-    if !thirty_day_buffer.is_empty() {
+    if thirty_day_buffer.len() != 1 {
         day = thirty_day_buffer.pop_front().unwrap();
     }
     day
