@@ -12,6 +12,7 @@ void data_cleaner_manual() {
     stringstream ss;
     bool nan_in_line = false;
     const int FIRST_DATE_TO_PARSE = 1325376000;
+    const int LAST_DATE_TO_PARSE = 1609372800;
 
     rawcsv.open("bitcoin_raw.csv");
     (*cleancsv).open("bitcoin_clean_cpp.csv");
@@ -121,7 +122,7 @@ Day* add_and_retrieve_past_day(queue<Day*> *past_days, Day *day) {
 }
 
 Day* retrieve_past_day(queue<Day*> *past_days) {
-    if (!(*past_days).empty()) {
+    if (!((*past_days).size() == 1)) {
         Day* past_day = past_days->front();
         past_days->pop();
         return past_day;

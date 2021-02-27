@@ -69,7 +69,7 @@ def add_and_retrieve_day(day):
     return None
 
 def retrieve_day():
-    if not thirty_day_buffer:
+    if len(thirty_day_buffer) == 1:
         return None
     return thirty_day_buffer.pop(0)
 
