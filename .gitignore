@@ -10,3 +10,4 @@ cpp/CMakeLists.txt
 __pycache__
 target
 Cargo.
+*.dSYM

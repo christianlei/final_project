@@ -1,20 +1,10 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <queue>
-#include "models/Bitcoin.h"
-#include "models/Day.h"
-
-using namespace std;
+#include "data_cleaner_manual.h"
 
 Day* add_and_retrieve_past_day(queue<Day*> *past_days, Day* day);
 
 Day* retrieve_past_day(queue<Day*> *past_days);
 
-int main() {
+void data_cleaner_manual() {
 
     ifstream rawcsv;
     ofstream *cleancsv = new ofstream();
@@ -117,7 +107,6 @@ int main() {
         delete cleancsv;
         delete past_days;
     } else cout << "Unable to open file";
-    return 0;
 }
 
 Day* add_and_retrieve_past_day(queue<Day*> *past_days, Day *day) {
