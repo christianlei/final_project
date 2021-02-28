@@ -148,9 +148,7 @@ int log_reg(){
 	fclose(fp);
 
 	int train_size = floor(0.85*num_days);
-	printf("train size = %d\n", train_size);
 	int test_size = num_days-train_size;
-	printf("test size = %d\n", test_size);
 	double X[train_size];
 	double y[train_size];
 	double X_test[test_size];
@@ -199,7 +197,7 @@ int log_reg(){
 
 	//
 	//init();
-	printf("CPU: %f\n", getCurrentValue());
+	//printf("CPU: %f\n", getCurrentValue());
 	//
 
 	double w_b[2];
@@ -214,8 +212,8 @@ int log_reg(){
 	predict(predicted_labels, w_b, X_test, (size_t)test_size);
 	double test_acc = calc_acc(predicted_labels, y_test, (size_t)test_size);
 
-	printf("training accuracy = %f\n", train_acc);
-	printf("testing accuracy = %f\n", test_acc);
+	printf("training accuracy = %lf\n", train_acc);
+	printf("testing accuracy = %lf\n", test_acc);
 
 	return EXIT_SUCCESS;
 }
