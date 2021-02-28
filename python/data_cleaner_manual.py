@@ -78,4 +78,4 @@ def save_columns_from_header(first_line):
     new_line_list = [first_line_list[0]]
     new_line_list.append(first_line_list[-1])
     new_line_list.append("labels")
-    print(', '.join(new_line_list))
+    print(','.join(new_line_list))
