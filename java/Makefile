@@ -1,3 +1,3 @@
 all:
-	javac StartHere.java
-	java StartHere
+	javac DataCleanerManual.java
+	java DataCleanerManual

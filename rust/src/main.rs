@@ -1,13 +1,13 @@
-use std::io;
 use std::time::Instant;
 
+mod log_reg;
 mod data_cleaner_manual;
 
-
-fn main() -> io::Result<()> {
-    let start = Instant::now();
-    let return_file = data_cleaner_manual::clean_data_file();
-    let duration = start.elapsed();
-    println!("Time elapsed in expensive_function() is: {:?}", duration);
-    return_file
+fn main(){
+	let start = Instant::now();
+	let mut _ret = data_cleaner_manual::clean_data_file();
+	_ret = log_reg::log_reg();
+	let duration = start.elapsed();
+	println!("runtime = {:?}", duration);
+	return;
 }
