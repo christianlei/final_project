@@ -2,52 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/sysinfo.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-static unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-
-void init(){
-    FILE* file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
-        &lastTotalSys, &lastTotalIdle);
-    fclose(file);
-}
-
-double getCurrentValue(){
-    double percent;
-    FILE* file;
-    unsigned long long totalUser, totalUserLow, totalSys, totalIdle, total;
-
-    file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow,
-        &totalSys, &totalIdle);
-    fclose(file);
-
-    if (totalUser < lastTotalUser || totalUserLow < lastTotalUserLow ||
-        totalSys < lastTotalSys || totalIdle < lastTotalIdle){
-        //Overflow detection. Just skip this value.
-        percent = -1.0;
-    }
-    else{
-        total = (totalUser - lastTotalUser) + (totalUserLow - lastTotalUserLow) +
-            (totalSys - lastTotalSys);
-        percent = total;
-        total += (totalIdle - lastTotalIdle);
-        percent /= total;
-        percent *= 100;
-    }
-
-    lastTotalUser = totalUser;
-    lastTotalUserLow = totalUserLow;
-    lastTotalSys = totalSys;
-    lastTotalIdle = totalIdle;
-
-    return percent;
-}
 
 double cost(double X_train[], double y_train[], double w, double b, size_t len_X){
     double cost = 0;
@@ -107,14 +64,12 @@ void predict(double predicted_labels[], double w_b[], double X[], size_t len_X){
     size_t i;
     for(i = 0; i < len_X; i++){
         x = X[i];
-		//printf("%f\n", 1/(1+exp(-w*x-b)));
         if(1/(1+exp(-w*x-b)) >= 0.5)
             predicted_labels[i] = 1;
         else
             predicted_labels[i] = 0;
-		//printf("%f ", predicted_labels[i]);
     }
-	//printf("\n");
+
     return;
 }
 
@@ -127,8 +82,6 @@ double calc_acc(double predicted_labels[], double labels[], size_t len_labels){
 }
 
 int log_reg(){
-	//data_cleaner_manual();
-
 	FILE *fp;
 	char *line;
 	size_t len = 0;
@@ -164,28 +117,22 @@ int log_reg(){
 		if(i < train_size){
 			//get timestamp
 			token = strtok(line, ",");
-			//printf("%s, ", token);
 			//get weighted price
 			token = strtok(NULL, ",");
 			X[i] = atof(token);
-			//printf("%f, ", X[i]);
 			//get labels
 			token = strtok(NULL, "\n");
 			y[i] = atof(token);
-			//printf("%f\n", y[i]);
 		}
 		else{
 			//get timestamp
             token = strtok(line, ",");
-            //printf("%s, ", token);
             //get weighted price
             token = strtok(NULL, ",");
             X_test[i-train_size] = atof(token);
-            //printf("%f, ", X[i]);
             //get labels
             token = strtok(NULL, "\n");
             y_test[i-train_size] = atof(token);
-            //printf("%f\n", y[i]);
 		}
 
 		i++;
@@ -194,11 +141,6 @@ int log_reg(){
 	fclose(fp);
     if(line)
         free(line);
-
-	//
-	//init();
-	//printf("CPU: %f\n", getCurrentValue());
-	//
 
 	double w_b[2];
 	size_t iterations = 1000;
