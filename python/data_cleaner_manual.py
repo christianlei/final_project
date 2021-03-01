@@ -2,7 +2,6 @@ from models.Bitcoin import Bitcoin
 from models.Day import Day
 import sys
 import os
-import psutil
 
 filepath = "bitcoin_raw.csv"
 output_filemath = "bitcoin_clean_python.csv"
@@ -15,9 +14,6 @@ def data_cleaner_manual():
         print("File path {} does not exist. Exiting...".format(filepath))
         sys.exit()
     original_stdout = sys.stdout
-    p = psutil.Process(os.getpid())
-    print(os.getpid())
-    print(p.cpu_percent())
     sys.stdout = open(output_filemath, "w")
 
     with open(filepath) as bitcoin_file:

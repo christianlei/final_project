@@ -69,8 +69,6 @@ class DataCleanerManual {
         System.out.println(e.toString());
     }
   }
-
-
   Day addAndRetrievePastDay(Day day) {
     final int THIRTY_ONE = 31;
     pastDays.addLast(day);
@@ -78,11 +76,9 @@ class DataCleanerManual {
       return pastDays.remove();
     return null;
   }
-
   Day retrievePastDay() {
     if(!(pastDays.size() == 1))
       return pastDays.remove();
     return null;
   }
-
 }

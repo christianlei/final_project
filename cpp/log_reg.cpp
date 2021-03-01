@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/sysinfo.h>
+#include <sys/sysctl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -142,7 +142,7 @@ int log_reg(){
 	read = getline(&line, &len, fp);
 
 	int num_days = -30; //offset due to no labels in last 30 rows
-	while(read = getline(&line, &len, fp) != -1){\
+	while((read = getline(&line, &len, fp)) != -1){\
 		num_days++;
 	}
 	fclose(fp);
@@ -160,7 +160,7 @@ int log_reg(){
 
 	char *token;
 	int i = 0;
-	while(read = getline(&line, &len, fp) != -1 && i < num_days){
+	while((read = getline(&line, &len, fp)) != -1 && i < num_days){
 		if(i < train_size){
 			//get timestamp
 			token = strtok(line, ",");

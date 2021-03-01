@@ -1,7 +1,3 @@
-//
-// Created by Christian C Lei on 2/19/21.
-//
-
 #ifndef CPP_DAY_H
 #define CPP_DAY_H
 

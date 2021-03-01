@@ -12,7 +12,6 @@ void data_cleaner_manual() {
     stringstream ss;
     bool nan_in_line = false;
     const int FIRST_DATE_TO_PARSE = 1325376000;
-    const int LAST_DATE_TO_PARSE = 1609372800;
 
     rawcsv.open("bitcoin_raw.csv");
     (*cleancsv).open("bitcoin_clean_cpp.csv");
