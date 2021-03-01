@@ -76,8 +76,6 @@ public class LogReg{
 				predicted_labels[i] = 1;
 			else
 				predicted_labels[i] = 0;
-			//System.out.println(1/(1+Math.exp(-w*x)));
-			//System.out.println(predicted_labels[i]);
 		}
 		return;
 	}
@@ -153,23 +151,6 @@ public class LogReg{
 		catch(IOException e){
 			e.printStackTrace();
 		}
-
-		/*
-		double X[] = {-1, 2, -1, 2, -1, 2, -1, 2, -1, 2};
-		double y[] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-		double w_b[] = new double[2];
-		int iterations = 1000;
-		int len_X = 10;
-
-		simulated_annealing(w_b, X, y, iterations, len_X);
-
-		double predicted_labels[] = new double[len_X];
-
-		predict(predicted_labels, w_b, X, len_X);
-		double accuracy = calc_acc(predicted_labels, y, len_X);
-		
-		System.out.println("accuracy = "+accuracy);
-		*/
 
 		return;
 	}

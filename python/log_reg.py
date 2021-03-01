@@ -56,7 +56,6 @@ def predict(model, X):
     b = model[1]
     for i in range(len(X)):
         x = X[i]
-        #print(1 / (1 + math.exp(-w * x - b)))
         predicted_class = 0
         if (1 / (1 + math.exp(-w * x - b)) >= 0.5):
         	predicted_class = 1
@@ -76,7 +75,6 @@ def calc_acc(predicted_labels, labels):
 def log_reg():
     df = pd.read_csv("bitcoin_clean_python.csv")
     labels = df[["labels"]]
-    # print(labels)
     df.drop(["Timestamp", "labels"], axis=1, inplace=True)
 
     clip = math.floor((0.85) * (len(df)-30))
@@ -118,20 +116,6 @@ def log_reg():
     print("training accuracy =", train_acc)
     print("testing accuracy =", test_acc)
 
-    """
-	model = LogisticRegression()
-    model.fit(X_train, np.ravel(y_train))
-    predicted_classes = model.predict(X_test)
-    print(predicted_classes)
-    accuracy = accuracy_score(y_test.flatten(), predicted_classes)
-    print("Library Model Accuracy: ", accuracy)
-	"""
-    """
-	default_model = defaultLogisticRegression(X_train, y_train)
-	default_res = predict(X_test, y_test)
-	print(model_res)
-	print(default_res)
-	"""
 def main():
 	pass
 
