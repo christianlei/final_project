@@ -8,10 +8,10 @@ import (
 
 func main(){
 	start := time.Now()
-	var data_clean int  = 1 + 1
+	model.DataCleanerManual()
 	mid := time.Since(start)
 	model.Log_reg()
 	end := time.Since(start)
-	fmt.Println("data cleaning runtime =", mid, data_clean)
+	fmt.Println("data cleaning runtime =", mid)
 	fmt.Println("log reg runtime =", end-mid)
 }

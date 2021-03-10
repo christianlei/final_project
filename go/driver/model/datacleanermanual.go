@@ -1,4 +1,4 @@
-package main
+package model
 
 import (
 	"os"
@@ -20,7 +20,7 @@ func DataCleanerManual() {
 	var parseHeader = false
 	var sb strings.Builder
 	var day Day
-	var inputFileName = "bitcoin_raw.csv"
+	var inputFileName = "model/bitcoin_raw.csv"
 	var outputFileName = "bitcoin_clean_go.csv"
 	var firstDateToParse = 1325376000
 	var thirtyDayBuffer []Day = make([]Day, 0)
