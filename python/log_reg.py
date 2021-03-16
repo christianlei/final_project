@@ -1,10 +1,6 @@
 import math
 import random
-import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 
 
 def Cost(X_train, y_train, w, b):
@@ -107,9 +103,3 @@ def log_reg():
     test_acc = calc_acc(predicted_labels, y_test)
     print("training accuracy =", train_acc)
     print("testing accuracy =", test_acc)
-
-def main():
-	pass
-
-if __name__ == "__main__":
-    main()
