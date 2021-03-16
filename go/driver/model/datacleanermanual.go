@@ -69,7 +69,6 @@ func DataCleanerManual() {
 			if err != nil {
 				panic (err)
 			}
-			sb.Reset()
 			firstDay = true
 			continue
 		}

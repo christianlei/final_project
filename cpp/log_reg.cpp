@@ -2,11 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-<<<<<<< HEAD
 #include <sys/types.h>
 #include <sys/sysctl.h>
-=======
->>>>>>> 7dbda649c019977ca60fc35f6d3c52b3352d8432
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

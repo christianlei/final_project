@@ -14,4 +14,5 @@ func main(){
 	end := time.Since(start)
 	fmt.Println("data cleaning runtime =", mid)
 	fmt.Println("log reg runtime =", end-mid)
+	fmt.Println("total runtime =", end)
 }
