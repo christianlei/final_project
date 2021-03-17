@@ -3,8 +3,6 @@ package model;
 import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
-import models.Bitcoin;
-import models.Day;
 
 public class DataCleanerManual {
 
